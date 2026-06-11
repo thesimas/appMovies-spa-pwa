@@ -178,27 +178,48 @@ async function mostrarDetalhes(idFilme) {
         telaLista.innerHTML = "";
 
         filme.genres.forEach(genero => {
-            generos += `${genero.name}<br>`;
+            generos += `<span class="badge bg-primary me-2">${genero.name}</span>`;
         });
 
         card.innerHTML = `
-                    <div class="card">
-                        <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h1 class="card-title">${filme.title}</h1>
-                            <p class="card-text">Descrição: ${filme.overview} <br>
-                            Data de lançamento: ${filme.release_date}<br>
-                            Categorias: ${generos}
-                            Nota: ${filme.vote_average} <br>
-                            Total de Votos: ${filme.vote_count} <br>
-                            Pôster: <br><img src="https://image.tmdb.org/t/p/w500/${filme.backdrop_path}" alt="...">
-                            </p>
-                        </div>
-                    </div>`;
+            <div class="col-md-3 text-center mb-4 mb-md-0">
+                <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" 
+                    class="img-fluid rounded-4 shadow-lg w-85" 
+                    alt="Pôster de ${filme.title}">
+            </div>
+
+            <div class="col-md-9">
+                <h2 class="fw-bold mb-3">${filme.title}</h2>
+                
+                <div class="mb-4">
+                    ${generos}
+                </div>
+
+                <h5 class="fw-semibold">Sinopse</h5>
+                <p class="lead text-muted mb-4">${filme.overview}</p>
+                
+                <p class="mb-2"><strong>Data de lançamento:</strong> ${filme.release_date}</p>
+                
+                <div class="alert alert-dark d-inline-block mt-3 mb-4 shadow-sm" role="alert">
+                    <h5 class="mb-0">
+                        ⭐ ${filme.vote_average.toFixed(1)} <span class="fs-6 text-muted">/ 10</span>
+                        <span class="ms-3 badge bg-secondary text-light fs-6">${filme.vote_count} votos</span>
+                    </h5>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button class="btn btn-outline-secondary px-5 py-2 shadow-sm rounded-pill" onclick="voltar()">
+                        ← Voltar para a lista
+                    </button>
+                </div>
+            </div>
+        `;
+
+        card.classList.add("row", "w-100", "align-items-center", "mt-5", "pt-4");
 
         telaLista.appendChild(card);
-
         navegar("tela-detalhes");
+
 
     } catch (erro) {
         console.log(`Erro na requisição: ${erro}`);
