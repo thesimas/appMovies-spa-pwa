@@ -114,9 +114,9 @@ async function lancamentos() {
 
 lancamentos();
 
-const botaoInput = document.getElementById("bt-busca");
+const formulario = document.getElementById("formulario");
 
-botaoInput.addEventListener('submit', event => {
+formulario.addEventListener('submit', event => {
     event.preventDefault();
 
     let dado = document.getElementById("busca").value;
@@ -148,13 +148,13 @@ async function buscar(inputUsuario) {
             });
 
             card.innerHTML = `
-                <div class="card" onclick="mostrarDetalhes(${filme.id})">
+                <div class="card" onclick="mostrarDetalhes(${filme.id})" style="cursor: pointer;">
                     <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h1 class="card-title">${filme.title}</h1>
                         <p class="card-text">Data de lançamento: ${filme.release_date}<br>${nomeCategorias}</p>
                     </div>
-                </div></a>`;
+                </div>`;
 
             telaLista.appendChild(card);
         });
