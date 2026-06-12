@@ -1,4 +1,5 @@
 const urlBase = "https://api.themoviedb.org";
+const chaveAPI = "d4fa4bf1f390349488054128cdf9aac9";
 
 // Lógica para movimentar as telas.
 let telaAtual = 'tela-home';
@@ -167,7 +168,6 @@ async function buscar(inputUsuario) {
 async function mostrarDetalhes(idFilme) {
 
     try {
-
         const telaLista = document.getElementById("tela-detalhes");
         const url = `${urlBase}/3/movie/${idFilme}?api_key=${chaveAPI}&language=pt-BR`;
         const response = await axios.get(url);
@@ -218,26 +218,71 @@ async function mostrarDetalhes(idFilme) {
         card.classList.add("row", "w-100", "align-items-center", "mt-5", "pt-4");
 
         telaLista.appendChild(card);
-        navegar("tela-detalhes");
+    
+        atores(idFilme);
 
+        navegar("tela-detalhes");
 
     } catch (erro) {
         console.log(`Erro na requisição: ${erro}`);
     }
 }
 
-if ('serviceWorker' in navigator) {  
-    navigator.serviceWorker.register("./service-worker.js");
-}
+async function atores(idFilme) {
+    try {
 
-var pedidoInstalacao;
-window.addEventListener('beforeinstallprompt', function(installPrompt) {
-    if(installPrompt){
-        document.getElementById("installAppBt").classList.add('show')
-        pedidoInstalacao = installPrompt
+        const telaLista = document.getElementById("tela-detalhes");
+        const url = `https://api.themoviedb.org/3/movie/${idFilme}/credits?api_key=${chaveAPI}&language=pt-BR`;
+        const responseElenco = await axios.get(url);
+        const card = document.createElement('div');
+        card.classList.add('row', 'mt-5', 'w-100');
+
+        const atores = responseElenco.data.cast;
+        
+        // Pegando os 6 primeiros atores do resultado da requisição.
+        const atoresPrincipais = atores.slice(0, 6); 
+        
+        card.innerHTML += `<h3 class="fw-bold mb-4">Elenco Principal</h3>`;
+        
+        atoresPrincipais.forEach(ator => {
+
+            // Operador Ternário para a imagem do ator, se tiver busca da API, se não tiver, coloca uma imagem generica.
+            const imagemAtor = ator.profile_path 
+                ? `https://image.tmdb.org/t/p/w500/${ator.profile_path}` 
+                : `https://via.placeholder.com/500x750?text=Sem+Foto`;
+            
+            card.innerHTML += `
+                <div class="col-6 col-md-2 text-center mb-4">
+                    <img src="${imagemAtor}" 
+                         class="img-fluid rounded-circle shadow-sm mb-2" 
+                         style="width: 120px; height: 120px; object-fit: cover;" 
+                         alt="Foto de ${ator.name}">
+                    <h6 class="fw-bold mb-0">${ator.name}</h6>
+                    <small class="text-muted">${ator.character}</small>
+                </div>
+            `;
+        });
+
+        telaLista.appendChild(card);
+
+    }catch (erro) {
+            console.log(`Erro na requisição: ${erro}`);
     }
-});
-
-function installApp() {
-    pedidoInstalacao.prompt(); 
 }
+
+
+if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register("./service-worker.js");
+    }
+
+    var pedidoInstalacao;
+    window.addEventListener('beforeinstallprompt', function (installPrompt) {
+        if (installPrompt) {
+            document.getElementById("installAppBt").classList.add('show')
+            pedidoInstalacao = installPrompt
+        }
+    });
+
+    function installApp() {
+        pedidoInstalacao.prompt();
+    }
