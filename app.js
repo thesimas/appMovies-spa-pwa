@@ -1,9 +1,31 @@
 const urlBase = "https://api.themoviedb.org";
 const chaveAPI = "d4fa4bf1f390349488054128cdf9aac9";
 
-// Lógica para movimentar as telas.
 let telaAtual = 'tela-home';
 let telaAnterior = 'tela-home';
+let categoriaGlobais = {};
+const formulario = document.getElementById("formulario");
+
+async function carregarCategorias() {
+    const url = `${urlBase}/3/genre/movie/list?api_key=${chaveAPI}&language=pt-BR`;
+    const response = await axios.get(url);
+    const selectCategorias = document.getElementById("select-categorias");
+
+    response.data.genres.forEach(categoria => {
+
+        categoriaGlobais[categoria.id] = categoria.name;
+
+        if (selectCategorias) {
+            const option = document.createElement('option');
+            option.value = categoria.id;
+            option.textContent = categoria.name;
+
+            selectCategorias.appendChild(option);
+        }
+    });
+}
+
+carregarCategorias();
 
 function navegar(destino) {
     let telas = document.getElementsByClassName('tela');
@@ -20,29 +42,6 @@ function navegar(destino) {
 function voltar() {
     navegar(telaAnterior);
 }
-
-let categoriaGlobais = {};
-
-async function carregarCategorias() {
-    const url = `${urlBase}/3/genre/movie/list?api_key=${chaveAPI}&language=pt-BR`;
-    const response = await axios.get(url);
-    const selectCategorias = document.getElementById("select-categorias");
-
-    response.data.genres.forEach(categoria => {
-
-        categoriaGlobais[categoria.id] = categoria.name;
-        
-        if(selectCategorias){
-            const option = document.createElement('option');
-            option.value = categoria.id;
-            option.textContent = categoria.name;
-
-            selectCategorias.appendChild(option);
-        }
-    });
-}
-
-carregarCategorias();
 
 async function listarFilmesPorCategorias(idCategoria) {
 
@@ -63,12 +62,14 @@ async function listarFilmesPorCategorias(idCategoria) {
                 nomeCategorias += `${categoriaGlobais[genero]} <br>`;
             });
 
+            const dataFormatada = filme.release_date.split('-').reverse().join('/');
+
             card.innerHTML = `
                 <div class="card" onclick="mostrarDetalhes(${filme.id})" style="cursor: pointer;">
                     <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" class="card-img-top" alt="Imagem do Filme">
                     <div class="card-body">
                         <h1 class="card-title">${filme.title}</h1>
-                        <p class="card-text">Data de lançamento: ${filme.release_date}<br>
+                        <p class="card-text">Data de lançamento: ${dataFormatada}<br>
                         <span>${nomeCategorias}</span></p>
                     </div>
                 </div>`;
@@ -99,13 +100,15 @@ async function listarFilmesPopulares() {
             filme.genre_ids.forEach(genero => {
                 nomeCategorias += `${categoriaGlobais[genero]} <br>`;
             });
+            // Separa a data pelo traço, inverte o array e depois junta ele usando / para separar. 
+            const dataFormatada = filme.release_date.split('-').reverse().join('/');
 
             card.innerHTML = `
                 <div class="card" onclick="mostrarDetalhes(${filme.id})" style="cursor: pointer;">
                     <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" class="card-img-top" alt="Imagem do Filme">
                     <div class="card-body">
                         <h1 class="card-title">${filme.title}</h1>
-                        <p class="card-text">Data de lançamento: ${filme.release_date}<br>
+                        <p class="card-text">Data de lançamento: ${dataFormatada}<br>
                         <span>${nomeCategorias}</span></p>
                     </div>
                 </div>`;
@@ -142,12 +145,14 @@ async function lancamentos() {
                 nomeCategorias += `${categoriaGlobais[genero]}<br>`;
             });
 
+            const dataFormatada = filme.release_date.split('-').reverse().join('/');
+
             card.innerHTML = `
                 <div class="card" onclick="mostrarDetalhes(${filme.id})" style="cursor: pointer;">
                     <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h1 class="card-title">${filme.title}</h1>
-                        <p class="card-text">Data de lançamento: ${filme.release_date}<br>${nomeCategorias}</p>
+                        <p class="card-text">Data de lançamento: ${dataFormatada}<br>${nomeCategorias}</p>
                     </div>
                 </div>`;
 
@@ -160,10 +165,6 @@ async function lancamentos() {
         console.log(`Erro na requisição: ${erro}`);
     }
 }
-
-lancamentos();
-
-const formulario = document.getElementById("formulario");
 
 formulario.addEventListener('submit', event => {
     event.preventDefault();
@@ -229,6 +230,8 @@ async function mostrarDetalhes(idFilme) {
             generos += `<span class="badge bg-primary me-2">${genero.name}</span>`;
         });
 
+        const dataFormatada = filme.release_date.split('-').reverse().join('/');
+
         card.innerHTML = `
             <div class="col-md-3 text-center mb-4 mb-md-0">
                 <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" 
@@ -246,7 +249,7 @@ async function mostrarDetalhes(idFilme) {
                 <h5 class="fw-semibold">Sinopse</h5>
                 <p class="lead text-muted mb-4">${filme.overview}</p>
                 
-                <p class="mb-2"><strong>Data de lançamento:</strong> ${filme.release_date}</p>
+                <p class="mb-2"><strong>Data de lançamento:</strong> ${dataFormatada}</p>
                 
                 <div class="alert alert-dark d-inline-block mt-3 mb-4 shadow-sm" role="alert">
                     <h5 class="mb-0">
@@ -286,9 +289,10 @@ async function atores(idFilme) {
         card.classList.add('row', 'mt-5', 'w-100');
 
         const atores = responseElenco.data.cast;
+        const atoresPrincipais = [];
 
         // Pegando os 6 primeiros atores do resultado da requisição.
-        const atoresPrincipais = atores.slice(0, 6);
+        atoresPrincipais = atores.slice(0, 6);
 
         card.innerHTML += `<h3 class="fw-bold mb-4">Elenco Principal</h3>`;
 
@@ -318,6 +322,7 @@ async function atores(idFilme) {
     }
 }
 
+lancamentos();
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register("./service-worker.js");
