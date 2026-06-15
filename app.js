@@ -46,7 +46,7 @@ function voltar() {
 async function listarFilmesPorCategorias(idCategoria) {
 
     try {
-        const telaLista = document.getElementById("tela-filmesPorCategorias");
+        const telaLista = document.getElementById("tela-principal");
         const url = `${urlBase}/3/discover/movie?api_key=${chaveAPI}&language=pt-BR&with_genres=${idCategoria}`;
         const response = await axios.get(url);
 
@@ -77,7 +77,7 @@ async function listarFilmesPorCategorias(idCategoria) {
             telaLista.appendChild(card);
         });
 
-        navegar("tela-filmesPorCategorias");
+        navegar("tela-principal");
     } catch (erro) {
         console.log(`Erro na requisição: ${erro}`);
     }
@@ -85,7 +85,7 @@ async function listarFilmesPorCategorias(idCategoria) {
 
 async function listarFilmesPopulares() {
     try {
-        const telaLista = document.getElementById("tela-populares");
+        const telaLista = document.getElementById("tela-principal");
         const url = `${urlBase}/3/movie/popular?api_key=${chaveAPI}&language=pt-BR`;
         const response = await axios.get(url);
 
@@ -116,7 +116,7 @@ async function listarFilmesPopulares() {
             telaLista.appendChild(card);
         });
 
-        navegar("tela-populares");
+        navegar("tela-principal");
 
     } catch (erro) {
         console.log(`Erro na requisição: ${erro}`);
@@ -126,7 +126,7 @@ async function listarFilmesPopulares() {
 async function lancamentos() {
     try {
 
-        const telaLista = document.getElementById("tela-lancamentos");
+        const telaLista = document.getElementById("tela-principal");
         const url = `${urlBase}/3/movie/upcoming?api_key=${chaveAPI}&language=pt-BR`;
         const response = await axios.get(url);
 
@@ -159,7 +159,7 @@ async function lancamentos() {
             telaLista.appendChild(card);
         });
 
-        navegar("tela-lancamentos");
+        navegar("tela-principal");
 
     } catch (erro) {
         console.log(`Erro na requisição: ${erro}`);
@@ -177,7 +177,7 @@ formulario.addEventListener('submit', event => {
 async function buscar(inputUsuario) {
     try {
 
-        const telaLista = document.getElementById("tela-lancamentos");
+        const telaLista = document.getElementById("tela-principal");
         const url = `${urlBase}/3/search/movie?api_key=${chaveAPI}&language=pt-BR&query=${inputUsuario}`;
         const response = await axios.get(url);
         const filmes = response.data.results;
@@ -257,10 +257,9 @@ async function mostrarDetalhes(idFilme) {
                         <span class="ms-3 badge bg-secondary text-light fs-6">${filme.vote_count} votos</span>
                     </h5>
                 </div>
-
                 <div class="text-center mt-4">
                     <button class="btn btn-outline-secondary px-5 py-2 shadow-sm rounded-pill" onclick="voltar()">
-                        ← Voltar para a lista
+                        Voltar para a lista
                     </button>
                 </div>
             </div>
@@ -289,10 +288,9 @@ async function atores(idFilme) {
         card.classList.add('row', 'mt-5', 'w-100');
 
         const atores = responseElenco.data.cast;
-        const atoresPrincipais = [];
 
         // Pegando os 6 primeiros atores do resultado da requisição.
-        atoresPrincipais = atores.slice(0, 6);
+        const atoresPrincipais = atores.slice(0, 6);
 
         card.innerHTML += `<h3 class="fw-bold mb-4">Elenco Principal</h3>`;
 

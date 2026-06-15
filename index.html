@@ -31,12 +31,14 @@
                             onclick="listarFilmesPopulares()">Filmes Populares</a>
                     </li>
                     <li class="nav-item ms-2 mt-1">
-                        <select class="" id="select-categorias" onchange="listarFilmesPorCategorias(this.value)">
+                        <select class="form-select form-select-sm" aria-label="Default select example"
+                            id="select-categorias" style="cursor: pointer;"
+                            onchange="listarFilmesPorCategorias(this.value)">
                             <option value="" selected disabled>Filtrar Por Categoria</option>
                         </select>
                     </li>
                     <li id="installAppBt" class="nav-item collapse">
-                        <a class="nav-link" href="#" onclick="installApp()" data-toggle="collapse"
+                        <a class="nav-link" onclick="installApp()" style="cursor: pointer;" data-toggle="collapse"
                             data-target="#menuNavbar">Instalar APP</a>
                     </li>
                 </ul>
@@ -49,10 +51,8 @@
         </div>
     </nav>
 
-    <div id="tela-populares" class="tela show row row-cols-md-4 g-4"></div>
-    <div id="tela-filmesPorCategorias" class="tela show row row-cols-md-4 g-4"></div>
-    <div id="tela-lancamentos" class="tela collapse row row-cols-md-4 g-4"></div>
-    <div id="tela-resultadoBusca" class="tela collapse row row-cols-md-4 g-4"></div>
+    <!--Tela dos filmes-->
+    <div id="tela-principal" class="tela show row row-cols-sm-1 row-cols-md-4 g-4"></div>
     <div id="tela-detalhes" class="tela collapse row g-4"></div>
 
     <script src="env.js"></script>
