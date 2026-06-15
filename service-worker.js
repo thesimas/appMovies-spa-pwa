@@ -23,8 +23,10 @@ const cachename = 'app-cache-v' + version
 const arquivos = [
   "./",
   "./index.html",
-  "./script.js"
-]
+  "./app.js",
+  "./env.js",
+  "./manifest.json"
+];
 
 /**
  * Cria o cache dos arquivos

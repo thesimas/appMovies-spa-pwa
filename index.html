@@ -12,35 +12,44 @@
 </head>
 
 <body class="bg-light">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <!-- Barra de Navegação -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top text-white bg-dark">
         <div class="container-fluid">
-            <a class="nav-link active " style="cursor: pointer;" id="inicio" onclick="lancamentos()">Início</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <!-- Clique na marca volta para Listagem de filmes lançamentos -->
+            <a class="navbar-brand">
+                <img src="imagens/pipoca.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                <span class="navbar-brand" onclick="lancamentos()" style="cursor: pointer;">CinePWA</span>
+            </a>
+
+            <!-- Botão para menu responsivo -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+            <!-- Itens do Menu -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" style="cursor: pointer;" id="lancamento"
-                            onclick="lancamentos()">Lançamentos</a>
+                        <a class="nav-link" style="cursor: pointer;" onclick="listarFilmesPopulares()"
+                            data-bs-toggle="collapse" data-bs-target="#navbarNav">Filmes Populares</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" style="cursor: pointer;" id="filmesPopulares"
-                            onclick="listarFilmesPopulares()">Filmes Populares</a>
+                        <a class="nav-link" style="cursor: pointer;" onclick="lancamentos()" data-bs-toggle="collapse"
+                            data-bs-target="#navbarNav">Lançamentos</a>
                     </li>
-                    <li class="nav-item ms-2 mt-1">
-                        <select class="form-select form-select-sm" aria-label="Default select example"
-                            id="select-categorias" style="cursor: pointer;"
+                    <li class="nav-item ms-lg-3 d-flex align-items-center">
+                        <select class="form-select bg-transparent border-0 text-white-50 shadow-none px-0"
+                            id="select-categorias" style="cursor: pointer; font-weight: 500;"
                             onchange="listarFilmesPorCategorias(this.value)">
-                            <option value="" selected disabled>Filtrar Por Categoria</option>
+
+                            <option value="" id="option" selected disabled class="text-dark">Categorias</option>
                         </select>
                     </li>
                     <li id="installAppBt" class="nav-item collapse">
-                        <a class="nav-link" onclick="installApp()" style="cursor: pointer;" data-toggle="collapse"
-                            data-target="#menuNavbar">Instalar APP</a>
+                        <a class="nav-link" style="cursor: pointer;" onclick="installApp()" data-bs-toggle="collapse"
+                            data-bs-target="#navbarNav">Instalar APP</a>
                     </li>
+
                 </ul>
                 <form class="d-flex" role="search" id="formulario">
                     <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search"
@@ -51,9 +60,29 @@
         </div>
     </nav>
 
-    <!--Tela dos filmes-->
-    <div id="tela-principal" class="tela show row row-cols-sm-1 row-cols-md-4 g-4"></div>
-    <div id="tela-detalhes" class="tela collapse row g-4"></div>
+    <!-- Conteúdo principal -->
+    <div class="container py-2 mt-5">
+        <h1 class="text-center mb-4 mt-3" id="titulo"></h1>
+
+        <!-- Tela principal com a lista dos filmes -->
+        <div id="tela-principal" class="tela row row-cols-1 row-cols-md-3 g-4 show"></div>
+
+        <!-- Tela com detalhes do filmes -->
+        <div id="tela-detalhes" class="tela row row-cols-1 row-cols-md-3 g-4 show"></div>
+    </div>
+
+    <footer class="bg-dark text-light text-center py-4 mt-5 shadow-lg">
+        <div class="container">
+            <p class="mb-1 fw-semibold">
+                <copy>Desenvolvido por Luciano Simas Junior e Guilherme Bianchini</copy>
+            </p>
+            <small class="text-secondary">
+                Técnico em Desenvolvimento de Sistemas (IFSC) 3ª Fase <address>
+                    <a href="https://github.com/thesimas/appMovies-spa-pwa" target="_blank">Link do Projeto</a>
+                </address>
+            </small>
+        </div>
+    </footer>
 
     <script src="env.js"></script>
     <script src="app.js"></script>
