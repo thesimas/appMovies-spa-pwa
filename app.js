@@ -19,6 +19,8 @@ async function carregarCategorias() {
             const option = document.createElement('option');
             option.value = categoria.id;
             option.textContent = categoria.name;
+            option.classList.add('text-light');
+            option.classList.add('bg-dark');
 
             selectCategorias.appendChild(option);
         }
@@ -49,8 +51,14 @@ async function listarFilmesPorCategorias(idCategoria) {
         const telaLista = document.getElementById("tela-principal");
         const url = `${urlBase}/3/discover/movie?api_key=${chaveAPI}&language=pt-BR&with_genres=${idCategoria}`;
         const response = await axios.get(url);
+        const select = document.getElementById('select-categorias');
+        select.selectedIndex = 0;
+        
+
+        titulo.innerHTML = `Filmes de ${categoriaGlobais[idCategoria]}`;
 
         telaLista.innerHTML = "";
+
         response.data.results.forEach(filme => {
 
             const card = document.createElement('div');
@@ -65,12 +73,18 @@ async function listarFilmesPorCategorias(idCategoria) {
             const dataFormatada = filme.release_date.split('-').reverse().join('/');
 
             card.innerHTML = `
-                <div class="card" onclick="mostrarDetalhes(${filme.id})" style="cursor: pointer;">
-                    <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" class="card-img-top" alt="Imagem do Filme">
-                    <div class="card-body">
-                        <h1 class="card-title">${filme.title}</h1>
-                        <p class="card-text">Data de lançamento: ${dataFormatada}<br>
-                        <span>${nomeCategorias}</span></p>
+                <div class="card h-100 shadow-sm border-0" onclick="mostrarDetalhes(${filme.id})" style="cursor: pointer;">
+                    
+                    <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" class="card-img-top" alt="Imagem do Filme" style="aspect-ratio: 2/3; object-fit: cover;">
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fw-bold">${filme.title}</h5>
+                        
+                        <p class="card-text mb-2 text-muted" style="font-size: 0.9rem;">Lançamento: ${dataFormatada}</p>
+                        
+                        <div class="mt-auto">
+                            <span style="font-size: 0.85rem;" class="fw-semibold text-primary">${nomeCategorias}</span>
+                        </div>
                     </div>
                 </div>`;
 
@@ -78,6 +92,13 @@ async function listarFilmesPorCategorias(idCategoria) {
         });
 
         navegar("tela-principal");
+
+        const menuSanduiche = document.getElementById('navbarNav');
+        if (menuSanduiche.classList.contains('show')) {
+            const menuCollapse = bootstrap.Collapse.getOrCreateInstance(menuSanduiche);
+            menuCollapse.hide();
+        }
+
     } catch (erro) {
         console.log(`Erro na requisição: ${erro}`);
     }
@@ -88,6 +109,9 @@ async function listarFilmesPopulares() {
         const telaLista = document.getElementById("tela-principal");
         const url = `${urlBase}/3/movie/popular?api_key=${chaveAPI}&language=pt-BR`;
         const response = await axios.get(url);
+        const titulo = document.getElementById('titulo');
+
+        titulo.innerHTML = `Filmes Populares`;
 
         telaLista.innerHTML = "";
         response.data.results.forEach(filme => {
@@ -104,12 +128,18 @@ async function listarFilmesPopulares() {
             const dataFormatada = filme.release_date.split('-').reverse().join('/');
 
             card.innerHTML = `
-                <div class="card" onclick="mostrarDetalhes(${filme.id})" style="cursor: pointer;">
-                    <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" class="card-img-top" alt="Imagem do Filme">
-                    <div class="card-body">
-                        <h1 class="card-title">${filme.title}</h1>
-                        <p class="card-text">Data de lançamento: ${dataFormatada}<br>
-                        <span>${nomeCategorias}</span></p>
+                <div class="card h-100 shadow-sm border-0" onclick="mostrarDetalhes(${filme.id})" style="cursor: pointer;">
+                    
+                    <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" class="card-img-top" alt="Imagem do Filme" style="aspect-ratio: 2/3; object-fit: cover;">
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fw-bold">${filme.title}</h5>
+                        
+                        <p class="card-text mb-2 text-muted" style="font-size: 0.9rem;">Lançamento: ${dataFormatada}</p>
+                        
+                        <div class="mt-auto">
+                            <span style="font-size: 0.85rem;" class="fw-semibold text-primary">${nomeCategorias}</span>
+                        </div>
                     </div>
                 </div>`;
 
@@ -130,6 +160,8 @@ async function lancamentos() {
         const url = `${urlBase}/3/movie/upcoming?api_key=${chaveAPI}&language=pt-BR`;
         const response = await axios.get(url);
 
+        const titulo = document.getElementById('titulo');
+        titulo.innerHTML = `Filmes Lançamentos`;
 
         telaLista.innerHTML = "";
 
@@ -148,11 +180,18 @@ async function lancamentos() {
             const dataFormatada = filme.release_date.split('-').reverse().join('/');
 
             card.innerHTML = `
-                <div class="card" onclick="mostrarDetalhes(${filme.id})" style="cursor: pointer;">
-                    <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h1 class="card-title">${filme.title}</h1>
-                        <p class="card-text">Data de lançamento: ${dataFormatada}<br>${nomeCategorias}</p>
+                <div class="card h-100 shadow-sm border-0" onclick="mostrarDetalhes(${filme.id})" style="cursor: pointer;">
+                    
+                    <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" class="card-img-top" alt="Imagem do Filme" style="aspect-ratio: 2/3; object-fit: cover;">
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fw-bold">${filme.title}</h5>
+                        
+                        <p class="card-text mb-2 text-muted" style="font-size: 0.9rem;">Lançamento: ${dataFormatada}</p>
+                        
+                        <div class="mt-auto">
+                            <span style="font-size: 0.85rem;" class="fw-semibold text-primary">${nomeCategorias}</span>
+                        </div>
                     </div>
                 </div>`;
 
@@ -169,9 +208,9 @@ async function lancamentos() {
 formulario.addEventListener('submit', event => {
     event.preventDefault();
 
-    let dado = document.getElementById("busca").value;
+    let nome = document.getElementById("busca").value;
 
-    buscar(dado);
+    buscar(nome);
 });
 
 async function buscar(inputUsuario) {
@@ -181,6 +220,9 @@ async function buscar(inputUsuario) {
         const url = `${urlBase}/3/search/movie?api_key=${chaveAPI}&language=pt-BR&query=${inputUsuario}`;
         const response = await axios.get(url);
         const filmes = response.data.results;
+        const titulo = document.getElementById('titulo');
+
+        titulo.innerHTML = `Filmes com o nome ${inputUsuario}`;
 
         telaLista.innerHTML = "";
 
@@ -197,17 +239,34 @@ async function buscar(inputUsuario) {
                 nomeCategorias += `${categoriaGlobais[genero]}<br>`;
             });
 
+            const dataFormatada = filme.release_date.split('-').reverse().join('/');
+
             card.innerHTML = `
-                <div class="card" onclick="mostrarDetalhes(${filme.id})" style="cursor: pointer;">
-                    <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h1 class="card-title">${filme.title}</h1>
-                        <p class="card-text">Data de lançamento: ${filme.release_date}<br>${nomeCategorias}</p>
+                <div class="card h-100 shadow-sm border-0" onclick="mostrarDetalhes(${filme.id})" style="cursor: pointer;">
+                    
+                    <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" class="card-img-top" alt="Imagem do Filme" style="aspect-ratio: 2/3; object-fit: cover;">
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fw-bold">${filme.title}</h5>
+                        
+                        <p class="card-text mb-2 text-muted" style="font-size: 0.9rem;">Lançamento: ${dataFormatada}</p>
+                        
+                        <div class="mt-auto">
+                            <span style="font-size: 0.85rem;" class="fw-semibold text-primary">${nomeCategorias}</span>
+                        </div>
                     </div>
                 </div>`;
 
             telaLista.appendChild(card);
         });
+
+        navegar("tela-principal");
+
+        const menuSanduiche = document.getElementById('navbarNav');
+        if (menuSanduiche.classList.contains('show')) {
+            const menuCollapse = bootstrap.Collapse.getOrCreateInstance(menuSanduiche);
+            menuCollapse.hide();
+        }
 
     } catch (erro) {
         console.log(`Erro na requisição: ${erro}`);
@@ -223,6 +282,8 @@ async function mostrarDetalhes(idFilme) {
         const filme = response.data;
         const card = document.createElement('div');
         let generos = "";
+        const titulo = document.getElementById('titulo');
+        titulo.innerHTML = ``;
 
         telaLista.innerHTML = "";
 
