@@ -4,6 +4,10 @@ const chaveAPI = "d4fa4bf1f390349488054128cdf9aac9";
 let telaAtual = 'tela-home';
 let telaAnterior = 'tela-home';
 let categoriaGlobais = {};
+
+let tituloAtual = "Filmes Lançamentos";
+let tituloAnterior = "Filmes Lançamentos";
+
 const formulario = document.getElementById("formulario");
 
 async function carregarCategorias() {
@@ -37,10 +41,13 @@ function navegar(destino) {
     document.getElementById(destino).classList.add('show');
     telaAnterior = telaAtual;
     telaAtual = destino;
+
 }
 
 function voltar() {
     navegar(telaAnterior);
+
+    setTitulo(tituloAnterior);
 }
 
 async function listarFilmesPorCategorias(idCategoria) {
@@ -52,8 +59,8 @@ async function listarFilmesPorCategorias(idCategoria) {
         const select = document.getElementById('select-categorias');
         select.selectedIndex = 0;
         
-
-        titulo.innerHTML = `Filmes de ${categoriaGlobais[idCategoria]}`;
+        titulo = `Filmes de ${categoriaGlobais[idCategoria]}`;
+        setTitulo(titulo);
 
         telaLista.innerHTML = "";
 
@@ -107,9 +114,9 @@ async function listarFilmesPopulares() {
         const telaLista = document.getElementById("tela-principal");
         const url = `${urlBase}/3/movie/popular?api_key=${chaveAPI}&language=pt-BR`;
         const response = await axios.get(url);
-        const titulo = document.getElementById('titulo');
-
-        titulo.innerHTML = `Filmes Populares`;
+        
+        titulo = "Filmes Populares";
+        setTitulo(titulo);
 
         telaLista.innerHTML = "";
         response.data.results.forEach(filme => {
@@ -151,15 +158,24 @@ async function listarFilmesPopulares() {
     }
 }
 
+function setTitulo(tituloNovo){
+    const titulo = document.getElementById('titulo');
+
+    tituloAnterior = tituloAtual;
+    tituloAtual = tituloNovo;
+
+    titulo.innerHTML = tituloAtual;
+}
+
 async function lancamentos() {
     try {
 
         const telaLista = document.getElementById("tela-principal");
         const url = `${urlBase}/3/movie/upcoming?api_key=${chaveAPI}&language=pt-BR`;
         const response = await axios.get(url);
-
-        const titulo = document.getElementById('titulo');
-        titulo.innerHTML = `Filmes Lançamentos`;
+        
+        titulo = "Filmes Lançamentos";
+        setTitulo(titulo);
 
         telaLista.innerHTML = "";
 
@@ -218,9 +234,9 @@ async function buscar(inputUsuario) {
         const url = `${urlBase}/3/search/movie?api_key=${chaveAPI}&language=pt-BR&query=${inputUsuario}`;
         const response = await axios.get(url);
         const filmes = response.data.results;
-        const titulo = document.getElementById('titulo');
 
-        titulo.innerHTML = `Filmes com o nome ${inputUsuario}`;
+        titulo = `Filmes com o nome ${inputUsuario}`;
+        setTitulo(titulo);
 
         telaLista.innerHTML = "";
 
@@ -280,8 +296,9 @@ async function mostrarDetalhes(idFilme) {
         const filme = response.data;
         const card = document.createElement('div');
         let generos = "";
-        const titulo = document.getElementById('titulo');
-        titulo.innerHTML = ``;
+
+        titulo = `Detalhes do Filme ${filme.title}`;
+        setTitulo(titulo);
 
         telaLista.innerHTML = "";
 
@@ -381,9 +398,7 @@ async function atores(idFilme) {
 
 async function iniciarApp() {
     try {
-        
         await carregarCategorias();
-
         lancamentos();
     } catch (erro) {
         console.log(`Erro ao iniciar a aplicação: ${erro}`);
