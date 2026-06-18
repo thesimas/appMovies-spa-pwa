@@ -27,8 +27,6 @@ async function carregarCategorias() {
     });
 }
 
-carregarCategorias();
-
 function navegar(destino) {
     let telas = document.getElementsByClassName('tela');
     Array.from(telas).forEach(elemento => {
@@ -174,7 +172,7 @@ async function lancamentos() {
             let nomeCategorias = "";
 
             filme.genre_ids.forEach(genero => {
-                nomeCategorias += `${categoriaGlobais[genero]}<br>`;
+                nomeCategorias += `${categoriaGlobais[genero]} <br>`;
             });
 
             const dataFormatada = filme.release_date.split('-').reverse().join('/');
@@ -381,7 +379,18 @@ async function atores(idFilme) {
     }
 }
 
-lancamentos();
+async function iniciarApp() {
+    try {
+        
+        await carregarCategorias();
+
+        lancamentos();
+    } catch (erro) {
+        console.log(`Erro ao iniciar a aplicação: ${erro}`);
+    }
+}
+
+iniciarApp();
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register("./service-worker.js");
