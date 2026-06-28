@@ -129,7 +129,7 @@ async function listarFilmesPopulares() {
             filme.genre_ids.forEach(genero => {
                 nomeCategorias += `${categoriaGlobais[genero]} <br>`;
             });
-            
+
             // Separa a data pelo traço, inverte o array e depois junta ele usando / para separar. 
             const dataFormatada = filme.release_date.split('-').reverse().join('/');
 
@@ -303,9 +303,16 @@ function favoritar(idFilme) {
             // Salva a lista atualizada no Local Storage, transformando ela em uma string.
             localStorage.setItem('filmesFavoritos', JSON.stringify(listaFilmesFavoritos));
 
-            alert("Filme salvo com sucesso!");
+            // Biblioteca SweetAlert2 
+            Swal.fire({
+                title: "Filme salvo com sucesso!",
+                icon: "success"
+            });
         } else {
-            alert("Filme já está na sua lista de filmes favoritos!");
+            Swal.fire({
+                title: "Filme já está na sua lista de filmes favoritos!",
+                icon: "warning"
+            });
         }
 
     } catch (erro) {
@@ -326,7 +333,10 @@ function removerFilmeFavorito(idFilme) {
         
         localStorage.setItem('filmesFavoritos', JSON.stringify(listaFilmesFavoritos));
 
-        alert("Filme removido dos favoritos.");
+        Swal.fire({
+            title: "Filme removido dos favoritos!",
+            icon: "success"
+        });
 
     } catch (erro) {
         console.log("Erro ao remover o filme no Local Storage: ", erro);
@@ -463,11 +473,10 @@ async function mostrarDetalhes(idFilme) {
                     </h5>
                 </div>
                 <div class="text-center mt-4">
-                    <button class="btn btn-outline-secondary px-5 py-2 shadow-sm rounded-pill" onclick="voltar()">
+                    <button class="btn btn-outline-secondary px-5 py-2 mb-3 shadow-sm rounded-pill" onclick="voltar()">
                         Voltar para a lista
                     </button>
                     ${botao}
-                    </button>
                 </div>
             </div>
         `;

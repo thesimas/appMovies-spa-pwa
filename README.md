@@ -12,6 +12,7 @@ Este projeto foi desenvolvido como parte **prática** do curso Técnico em Desen
 * **Busca Dinâmica:** Pesquisa de filmes por nome.
 * **Filtro por Categorias:** Menu suspenso para explorar filmes por géneros (Ação, Comédia, Terror, etc.).
 * **Detalhes do Filme:** Ao clicar num cartão, a aplicação carrega a sinopse, data de lançamento, avaliação (nota e votos) e os principais atores do elenco.
+* **Favoritar Filmes:** Dentro do detalhes do filme, o úsuario poderá favoritar o filme, salvando esse dado no LocalStorage, e posteriormente poderá remover esse filme de lá, assim  também terá uma nova opção no navbar, a lista dos seus filmes favoritos.
 * **Navegação SPA:** Transições de ecrã fluidas e instantâneas, sem recarregar a página do navegador.
 * **Progressive Web App (PWA):**
   * Suporte para instalação direta no telemóvel/computador.
