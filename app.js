@@ -315,6 +315,8 @@ function favoritar(idFilme) {
             });
         }
 
+        verificarFilmeFavorito(idFilme);
+
     } catch (erro) {
         console.log("Erro ao salvar o filme no Local Storage: ", erro);
     }
@@ -337,21 +339,23 @@ function removerFilmeFavorito(idFilme) {
             title: "Filme removido dos favoritos!",
             icon: "success"
         });
-
+        
+        verificarFilmeFavorito(idFilme);
     } catch (erro) {
         console.log("Erro ao remover o filme no Local Storage: ", erro);
     }
 }
 
-function verificarSeFilmeFavorito(idFilme) {
+function verificarFilmeFavorito(idFilme) {
+    botao = document.getElementById("botao");
     let listaString = localStorage.getItem('filmesFavoritos');
 
     let listaFilmesFavoritos = listaString ? JSON.parse(listaString) : [];
 
     if(listaFilmesFavoritos.includes(idFilme)) {
-        return true;
+        botao.innerHTML = `<button class="btn btn-outline-danger px-5 py-2 shadow-sm rounded-pill" onclick="removerFilmeFavorito(${idFilme})">Remover dos favoritos</button>`;
     } else {
-        return false;
+        botao.innerHTML = `<button class="btn btn-outline-secondary px-5 py-2 shadow-sm rounded-pill" onclick="favoritar(${idFilme})">Adicionar aos favoritos</button>`;
     }
 }    
 
@@ -444,12 +448,6 @@ async function mostrarDetalhes(idFilme) {
 
         const dataFormatada = filme.release_date.split('-').reverse().join('/');
         
-        if(verificarSeFilmeFavorito(idFilme)) {
-            botao = `<button class="btn btn-outline-danger px-5 py-2 shadow-sm rounded-pill" onclick="removerFilmeFavorito(${idFilme})">Remover dos favoritos</button>`;
-        } else {
-            botao = `<button class="btn btn-outline-secondary px-5 py-2 shadow-sm rounded-pill" onclick="favoritar(${idFilme})">Adicionar aos favoritos</button>`;
-        }
-
         card.innerHTML = `
             <div class="col-md-3 text-center mb-4 mb-md-0">
                 <img src="https://image.tmdb.org/t/p/w500/${filme.poster_path}" 
@@ -480,7 +478,7 @@ async function mostrarDetalhes(idFilme) {
                         Voltar para a lista
                     </button>
                     <br>
-                    ${botao}
+                    <div id="botao"></div>
                 </div>
             </div>
         `;
@@ -488,6 +486,9 @@ async function mostrarDetalhes(idFilme) {
         card.classList.add("row", "w-100", "align-items-center", "mt-5", "pt-4");
 
         telaLista.appendChild(card);
+        
+        // Chamando a função fora do car para não quebrar o layout. 
+        verificarFilmeFavorito(idFilme);
 
         atores(idFilme);
 
