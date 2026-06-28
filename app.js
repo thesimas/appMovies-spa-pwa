@@ -42,6 +42,12 @@ function navegar(destino) {
     telaAnterior = telaAtual;
     telaAtual = destino;
 
+    // Rolar a página para o topo ao navegar para uma nova tela
+    window.scrollTo({
+        top: 0,
+        behavior: 'instant'
+    });
+
 }
 
 function voltar() {
@@ -373,7 +379,9 @@ async function listarFilmesFavoritos() {
 
         
         if (listaFilmesFavoritos.length === 0) {
-            telaLista.innerHTML = "<p class='text-center w-100 fs-5 mt-4 text-muted'>Você ainda não tem filmes favoritos salvos.</p>";
+            telaLista.innerHTML = `<div class="d-flex justify-content-center align-items-center w-100" style="min-height: 50vh;">
+                                        <p class="text-center fs-5 mb-0 text-warning">Você ainda não tem filmes favoritos salvos.</p>
+                                    </div>`;
         } else {
             
             for (const id of listaFilmesFavoritos) {
@@ -486,7 +494,7 @@ async function mostrarDetalhes(idFilme) {
         card.classList.add("row", "w-100", "align-items-center", "mt-5", "pt-4");
 
         telaLista.appendChild(card);
-        
+
         // Chamando a função fora do car para não quebrar o layout. 
         verificarFilmeFavorito(idFilme);
 
