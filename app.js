@@ -444,8 +444,11 @@ async function mostrarDetalhes(idFilme) {
 
         const dataFormatada = filme.release_date.split('-').reverse().join('/');
         
-        // Operador ternario para verificar se o filme está nos favoritos e exibir o botão correspondente.
-        const botao = verificarSeFilmeFavorito(idFilme) ? `<button class="btn btn-outline-danger px-5 py-2 shadow-sm rounded-pill" onclick="removerFilmeFavorito(${idFilme})">Remover dos favoritos</button>` : `<button class="btn btn-outline-secondary px-5 py-2 shadow-sm rounded-pill" onclick="favoritar(${idFilme})">Adicionar aos favoritos</button>`;
+        if(verificarSeFilmeFavorito(idFilme)) {
+            botao = `<button class="btn btn-outline-danger px-5 py-2 shadow-sm rounded-pill" onclick="removerFilmeFavorito(${idFilme})">Remover dos favoritos</button>`;
+        } else {
+            botao = `<button class="btn btn-outline-secondary px-5 py-2 shadow-sm rounded-pill" onclick="favoritar(${idFilme})">Adicionar aos favoritos</button>`;
+        }
 
         card.innerHTML = `
             <div class="col-md-3 text-center mb-4 mb-md-0">
@@ -476,6 +479,7 @@ async function mostrarDetalhes(idFilme) {
                     <button class="btn btn-outline-secondary px-5 py-2 mb-3 shadow-sm rounded-pill" onclick="voltar()">
                         Voltar para a lista
                     </button>
+                    <br>
                     ${botao}
                 </div>
             </div>
