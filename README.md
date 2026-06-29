@@ -1,6 +1,8 @@
 # <img src="imagens/pipoca.png" width="35" align="center"> CinePWA - Catálogo de Filmes 
 
 [![Link do Projeto](https://img.shields.io/badge/Acessar_Projeto-CinePWA-blue?style=for-the-badge)](https://thesimas.github.io/appMovies-spa-pwa/)
+[![Vídeo no YouTube](https://img.shields.io/badge/Assistir_Video-YouTube-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=AyGkzQAU5AA&t=73s)
+
 
 O **CinePWA** é um aplicativo de catálogo de filmes desenvolvido com conceitos de **Single Page Application (SPA)** e **Progressive Web App (PWA)**. O projeto consome a API pública do **The Movie Database (TMDB)** para apresentar informações em tempo real sobre filmes em alta, lançamentos, notas de avaliação e detalhes de elenco.
 
