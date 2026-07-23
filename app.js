@@ -45,7 +45,7 @@ function navegar(destino) {
     // Rolar a página para o topo ao navegar para uma nova tela
     window.scrollTo({
         top: 0,
-        behavior: 'instant'
+        behavior: 'instant' // ou 'smooth' para uma rolagem suave
     });
 
 }
