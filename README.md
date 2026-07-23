@@ -10,7 +10,7 @@ Este projeto foi desenvolvido como parte **prática** do curso Técnico em Desen
 
 ---
 
-## 📸 Demonstração do Projeto
+## Demonstração do Projeto
 
 Abaixo você pode conferir algumas das principais interfaces da aplicação:
 
@@ -22,7 +22,7 @@ Abaixo você pode conferir algumas das principais interfaces da aplicação:
 
 ---
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
 * **Lista de Filmes Populares e Lançamentos:** Exibição dinâmica dos filmes mais em alta no momento.
 * **Busca Dinâmica:** Pesquisa de filmes por nome de forma rápida e intuitiva.
@@ -37,7 +37,7 @@ Abaixo você pode conferir algumas das principais interfaces da aplicação:
 
 ---
 
-## 💻 Tecnologias e Bibliotecas Utilizadas
+## Tecnologias e Bibliotecas Utilizadas
 
 O projeto foi construído utilizando as seguintes tecnologias:
 
@@ -47,3 +47,9 @@ O projeto foi construído utilizando as seguintes tecnologias:
 * **Axios:** Biblioteca baseada em Promises utilizada para realizar as requisições HTTP (GET) à API externa.
 * **SweetAlert2:** Biblioteca utilizada para criar alertas visuais bonitos e interativos (feedback ao adicionar ou remover favoritos).
 * **TMDB API:** Fonte de dados RESTful que fornece todo o catálogo de filmes, imagens e créditos de elenco.
+
+---
+
+## Autor
+
+> **Luciano Simas Junior**
