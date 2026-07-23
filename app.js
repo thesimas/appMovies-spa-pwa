@@ -1,5 +1,4 @@
 const urlBase = "https://api.themoviedb.org";
-const chaveAPI = "d4fa4bf1f390349488054128cdf9aac9";
 
 let telaAtual = 'tela-home';
 let telaAnterior = 'tela-home';
@@ -11,7 +10,7 @@ let tituloAnterior = "Filmes Lançamentos";
 const formulario = document.getElementById("formulario");
 
 async function carregarCategorias() {
-    const url = `${urlBase}/3/genre/movie/list?api_key=${chaveAPI}&language=pt-BR`;
+    const url = `${urlBase}/3/genre/movie/list?api_key=${API_KEY}&language=pt-BR`;
     const response = await axios.get(url);
     const selectCategorias = document.getElementById("select-categorias");
 
@@ -60,7 +59,7 @@ async function listarFilmesPorCategorias(idCategoria) {
 
     try {
         const telaLista = document.getElementById("tela-principal");
-        const url = `${urlBase}/3/discover/movie?api_key=${chaveAPI}&language=pt-BR&with_genres=${idCategoria}`;
+        const url = `${urlBase}/3/discover/movie?api_key=${API_KEY}&language=pt-BR&with_genres=${idCategoria}`;
         const response = await axios.get(url);
         const select = document.getElementById('select-categorias');
         select.selectedIndex = 0;
@@ -118,7 +117,7 @@ async function listarFilmesPorCategorias(idCategoria) {
 async function listarFilmesPopulares() {
     try {
         const telaLista = document.getElementById("tela-principal");
-        const url = `${urlBase}/3/movie/popular?api_key=${chaveAPI}&language=pt-BR`;
+        const url = `${urlBase}/3/movie/popular?api_key=${API_KEY}&language=pt-BR`;
         const response = await axios.get(url);
 
         titulo = "Filmes Populares";
@@ -178,7 +177,7 @@ async function lancamentos() {
     try {
 
         const telaLista = document.getElementById("tela-principal");
-        const url = `${urlBase}/3/movie/upcoming?api_key=${chaveAPI}&language=pt-BR`;
+        const url = `${urlBase}/3/movie/upcoming?api_key=${API_KEY}&language=pt-BR`;
         const response = await axios.get(url);
 
         titulo = "Filmes Lançamentos";
@@ -238,7 +237,7 @@ async function buscar(inputUsuario) {
     try {
 
         const telaLista = document.getElementById("tela-principal");
-        const url = `${urlBase}/3/search/movie?api_key=${chaveAPI}&language=pt-BR&query=${inputUsuario}`;
+        const url = `${urlBase}/3/search/movie?api_key=${API_KEY}&language=pt-BR&query=${inputUsuario}`;
         const response = await axios.get(url);
         const filmes = response.data.results;
 
@@ -387,7 +386,7 @@ async function listarFilmesFavoritos() {
             for (const id of listaFilmesFavoritos) {
                 
                 
-                let url = `${urlBase}/3/movie/${id}?api_key=${chaveAPI}&language=pt-BR`;
+                let url = `${urlBase}/3/movie/${id}?api_key=${API_KEY}&language=pt-BR`;
 
                 const response = await axios.get(url);
                 
@@ -439,7 +438,7 @@ async function mostrarDetalhes(idFilme) {
 
     try {
         const telaLista = document.getElementById("tela-detalhes");
-        const url = `${urlBase}/3/movie/${idFilme}?api_key=${chaveAPI}&language=pt-BR`;
+        const url = `${urlBase}/3/movie/${idFilme}?api_key=${API_KEY}&language=pt-BR`;
         const response = await axios.get(url);
         const filme = response.data;
         const card = document.createElement('div');
@@ -511,7 +510,7 @@ async function atores(idFilme) {
     try {
 
         const telaLista = document.getElementById("tela-detalhes");
-        const url = `https://api.themoviedb.org/3/movie/${idFilme}/credits?api_key=${chaveAPI}&language=pt-BR`;
+        const url = `https://api.themoviedb.org/3/movie/${idFilme}/credits?api_key=${API_KEY}&language=pt-BR`;
         const responseElenco = await axios.get(url);
         const card = document.createElement('div');
         card.classList.add('row', 'mt-5', 'w-100');
