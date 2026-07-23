@@ -1,0 +1,44 @@
+name: Deploy to GitHub Pages
+
+# 1. Quando essa Action deve rodar? Sempre que fizermos um push na branch main.
+on:
+  push:
+    branches: ["main"]
+
+# 2. Permissões necessárias para o GitHub ler o código e publicar no Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 3. O trabalho em si
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest # O GitHub abre uma máquina Linux vazia
+
+    steps:
+      # Passo A: Baixa os arquivos do seu repositório para a máquina virtual
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      # Passo B: A MÁGICA! O Linux cria o env.js e escreve a sua Secret dentro dele
+      - name: Injetar a chave da API
+        run: echo "const API_KEY = '${{ secrets.API_KEY }}';" > env.js
+
+      # Passo C: Prepara o terreno para o Pages
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+
+      # Passo D: Empacota a sua pasta (agora com o env.js gerado)
+      - name: Fazer upload dos arquivos
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      # Passo E: Publica no ar
+      - name: Realizar o Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
