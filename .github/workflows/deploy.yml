@@ -24,15 +24,15 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      # Passo B: A MÁGICA! O Linux cria o env.js e escreve a sua Secret dentro dele
+      # Passo B: A MÁGICA! O Linux cria o config.js e escreve a sua Secret dentro dele
       - name: Injetar a chave da API
-        run: echo "const API_KEY = '${{ secrets.API_KEY }}';" > env.js
+        run: echo "const API_KEY = '${{ secrets.API_KEY }}';" > config.js
 
       # Passo C: Prepara o terreno para o Pages
       - name: Configurar Pages
         uses: actions/configure-pages@v5
 
-      # Passo D: Empacota a sua pasta (agora com o env.js gerado)
+      # Passo D: Empacota a sua pasta (agora com o config.js gerado)
       - name: Fazer upload dos arquivos
         uses: actions/upload-pages-artifact@v3
         with:
